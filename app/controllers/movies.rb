@@ -14,9 +14,9 @@ ImdbKnockoff::App.controllers :movies do
     redirect url(:movies, :show, id: movie.id)
   end
 
-  get :show, map: 'movies/:id' do
+  get :show, map: '/movies/:id' do
     @movie = Movie.find(params[:id])
-    
+
     render :show
   end
 end
