@@ -23,7 +23,7 @@ ActiveRecord::Base.configurations[:development] = {
 
 ActiveRecord::Base.configurations[:production] = {
   :adapter => 'postgresql',
-  :database => 'imdb_knockoff_production'
+  :database => 'imdb_knockoff_production',
   :host => ENV['DATABASE_URL']
 }
 
