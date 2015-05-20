@@ -39,7 +39,7 @@ module ImdbKnockoff
     # set :locale_path, 'bar'       # Set path for I18n translations (default your_apps_root_path/locale)
     # disable :sessions             # Disabled sessions by default (enable if needed)
     # disable :flash                # Disables sinatra-flash (enabled by default if Sinatra::Flash is defined)
-    # layout  :my_layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
+    layout  :layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
     #
 
     ##
