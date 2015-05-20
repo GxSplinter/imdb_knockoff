@@ -1,0 +1,7 @@
+<h1>List all the things! ヽ༼>ل͜<༽ﾉ</h1>
+<p> <%= link_to "Add a New Movie", "new" %> </p>
+<ol>
+	<% @movies.each do |movie| %>
+	<li><%= movie.name %></li>
+	<% end %>
+</ol>

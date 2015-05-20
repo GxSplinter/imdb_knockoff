@@ -1,4 +1,9 @@
 ImdbKnockoff::App.controllers :movies do
+  get :list do
+    @movies = Movie.all
+    render :list
+  end
+
   get :new do
     render :new
   end

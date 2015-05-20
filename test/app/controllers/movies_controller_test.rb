@@ -1,5 +1,26 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 
+describe "GET /movies" do
+	it "responds OK" do
+		get "/movies/list"
+
+		assert last_response.ok?
+	end
+
+	it "lists the saved movies" do
+		movie = Movie.create!(name: 'Jaws', rating: 5)
+		get "/movies/list"
+
+		assert_includes last_response.body, movie.name
+	end
+
+	it "has a 'new movie' link" do 
+		get "/movies/list"
+		
+		assert_includes last_response.body, "<a href=\"new\">New Movies</a>"
+	end
+end
+
 describe "GET /movies/new" do
 	it "responds OK" do
 		get "/movies/new"
