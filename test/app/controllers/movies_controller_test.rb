@@ -1,5 +1,22 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 
+describe "GET /movies:id" do
+	before do
+		@movie = Movie.create!(name: 'Jaws', rating: 5)
+
+		get "/movies/#{@movie.id}"
+	end
+
+	it "displays the name" do
+		assert_includes last_response.body, @movie.name
+	end
+
+	it "displays the rating" do
+		assert_includes last_response.body, @movie.rating.to_s
+	end
+
+end
+
 describe "POST /movies" do
 	before do
 		post "/movies", { name: "Jaws", rating: 5 }
