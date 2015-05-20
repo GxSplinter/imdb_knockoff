@@ -1,5 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 
+describe "GET /movies/new" do
+	it "responds OK" do
+		get "/movies/new"
+
+		assert last_response.ok?
+	end
+end
+
 describe "GET /movies:id" do
 	before do
 		@movie = Movie.create!(name: 'Jaws', rating: 5)
