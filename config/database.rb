@@ -21,11 +21,11 @@ ActiveRecord::Base.configurations[:development] = {
   :password => 'password'
 }
 
-ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'postgresql',
-  :database => 'imdb_knockoff_production',
-  :host => ENV['DATABASE_URL']
-}
+# ActiveRecord::Base.configurations[:production] = {
+#   :adapter => 'postgresql',
+#   :database => 'imdb_knockoff_production',
+#   :host => ENV['DATABASE_URL']
+# }
 
 ActiveRecord::Base.configurations[:test] = {
   :adapter => 'postgresql',
