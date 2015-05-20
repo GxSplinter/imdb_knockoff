@@ -14,21 +14,25 @@
 #   }
 #
 ActiveRecord::Base.configurations[:development] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'imdb_knockoff_development.db')
-
+  :adapter => 'postgresql',
+  :database => 'imdb_knockoff_development',
+  :host => 'localhost',
+  :username => 'rails',
+  :password => 'password'
 }
 
 ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'imdb_knockoff_production.db')
+  :adapter => 'postgresql',
+  :database => 'imdb_knockoff_production'
 
 }
 
 ActiveRecord::Base.configurations[:test] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'imdb_knockoff_test.db')
-
+  :adapter => 'postgresql',
+  :database => 'imdb_knockoff_test',
+  :host => 'localhost',
+  :username => 'rails',
+  :password => 'password'
 }
 
 # Setup our logger

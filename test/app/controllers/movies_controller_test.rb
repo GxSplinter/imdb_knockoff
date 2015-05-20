@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 describe "GET /movies" do
 	it "responds OK" do
 		get "/movies/list"
-		binding.pry
 		assert last_response.ok?
 	end
 
