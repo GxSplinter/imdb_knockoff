@@ -2,6 +2,6 @@
 <p> <%= link_to "Add a New Movie", "new" %> </p>
 <ol>
 	<% @movies.each do |movie| %>
-	<li><%= movie.name %></li>
+	<li><%= link_to movie.name, "#{movie.id}" %></li>
 	<% end %>
 </ol>
