@@ -14,9 +14,9 @@ describe "GET /movies" do
 		assert_includes last_response.body, movie.name
 	end
 
-	it "has a 'new movie' link" do 
+	it "has a 'new movie' link" do
 		get "/movies/list"
-		
+
 		assert_includes last_response.body, "<a href=\"new\">Add a New Movie</a>"
 	end
 end
