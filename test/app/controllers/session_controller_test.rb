@@ -4,6 +4,14 @@ def session
 	last_request.env['rack.session']
 end
 
+describe "GET /session/new" do
+	it "responds OK" do
+		get "/session/new"
+
+		assert last_response.ok?, "Wasn't OK"
+	end
+end
+
 describe "POST /session" do
 	describe "with valid credentials" do
 		it "creates a new session" do

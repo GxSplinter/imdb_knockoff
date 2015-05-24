@@ -1,5 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 
+def session
+	last_request.env['rack.session']
+end
+
 describe "GET /movies" do
 	it "responds OK" do
 		get "/movies/list"
@@ -21,14 +25,24 @@ describe "GET /movies" do
 end
 
 describe "GET /movies/new" do
-	it "responds OK" do
-		get "/movies/new"
+	describe "When not authenticated" do
+		it "redirects to the login page" do
+			get "/movies/new"
 
-		assert last_response.ok?
+			assert last_response.redirect?
+		end
+	end
+
+	describe "when authenticated" do
+		it "responds OK" do
+			get "/movies/new", {}, { 'rack.session' => { authenticated: true } }
+
+			assert last_response.ok?
+		end
 	end
 end
 
-describe "GET /movies:id" do
+describe "GET /movies/:id" do
 	before do
 		@movie = Movie.create!(name: 'Jaws', rating: 5)
 
@@ -42,22 +56,82 @@ describe "GET /movies:id" do
 	it "displays the rating" do
 		assert_includes last_response.body, @movie.rating.to_s
 	end
-
 end
 
 describe "POST /movies" do
-	before do
-		post "/movies", { name: "Jaws", rating: 5 }
+	describe "when unauthenticated" do
+		it "redirects to the login page" do
+			post "/movies", { name: "Jaws", rating: 5 }
+
+			assert last_response.redirect?, "Not redirected"
+			assert_includes last_response.location, "/session/new"
+		end
 	end
 
-	it "creates the movie" do
-		jaws = Movie.first
+	describe "when authenticated" do
+		before do
+			post "/movies",
+				{ movie: { name: "Jaws", rating: 5 } },
+				{ 'rack.session' => { authenticated: true } }
+		end
 
-		assert_equal jaws.name, "Jaws"
-		assert_equal jaws.rating, 5
+		it "creates the movie" do
+			jaws = Movie.first
+
+			assert_equal jaws.name, "Jaws"
+			assert_equal jaws.rating, 5
+		end
+
+		it "redirects to our new movie" do
+			assert last_response.redirect?
+		end
 	end
 
-	it "redirects to our new movie" do
-		assert last_response.redirect?
+	describe "GET /movies/:id/edit" do
+		before do
+			@movie = Movie.create!(name: 'Jaws', rating: 5)
+
+			get "/movies/#{@movie.id}/edit"
+		end
+
+		it "adds the name to the edit page" do
+			assert_includes last_response.body, 'value="Jaws"'
+		end
+
+		it "adds the rating to the edit page" do
+			assert_includes last_response.body, 'value="5"'
+		end
+	end
+
+	describe "PUT /movies/:id" do
+		before do
+			@movie = Movie.create!(name: 'Jaws', rating: 5)
+
+			get "/movies/#{@movie.id}/edit"
+
+			post "/movies/#{@movie.id}",
+				{ movie: { name: "Godfather", rating: 4 } },
+				{ 'rack.session' => { authenticated: true } }
+
+				@movie.reload
+		end
+
+		it "has changed the name" do
+			assert_equal @movie.name, "Godfather"
+		end
+
+		it "has changed the rating" do
+			assert_equal @movie.rating, 4
+		end
+
+		it "redirects to the edited movie" do
+			assert last_response.redirect?
+		end
+	end
+
+	describe "DELETE /movies/id" do
+		it "removed the movie from the DB" do
+			assert_equal Movie.first, null
+		end
 	end
 end
