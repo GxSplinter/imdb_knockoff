@@ -1,0 +1,21 @@
+<h1>Edit a Movie</h1>
+<% form_for(@movie, path, method: "put") do |m| %>
+	<% if @movie.errors.present? %>
+		<img src="https://s-media-cache-ak0.pinimg.com/736x/05/24/74/05247421aa4e1006a06c9cdc7cddb3d2.jpg">
+		<ul>
+			<% @movie.errors.full_messages.each do |error| %>
+				<% if error.include?("Rating") %>
+					<li>Rating must be between 1 - 5</li>
+				<% elsif error.include?("Name") %>
+					<li>Name must not be blank</li>
+				<% else %>
+					<li><% error %></li>
+				<% end %>
+			<% end %>
+		</ul>
+	<% end %>
+  <%= m.text_field_block(:name) %>
+  <%= m.label(:rating) %>
+  <%= m.number_field(:rating, min: 1, max: 5, step: 1) %>
+  <%= m.submit %>
+<% end %>

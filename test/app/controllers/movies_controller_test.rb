@@ -109,7 +109,7 @@ describe "POST /movies" do
 
 			get "/movies/#{@movie.id}/edit"
 
-			post "/movies/#{@movie.id}",
+			put "/movies/#{@movie.id}",
 				{ movie: { name: "Godfather", rating: 4 } },
 				{ 'rack.session' => { authenticated: true } }
 
@@ -129,9 +129,23 @@ describe "POST /movies" do
 		end
 	end
 
-	describe "DELETE /movies/id" do
+	describe "DELETE /movies/:id" do
+		before do
+			@movie = Movie.create!(name: 'Jaws', rating: 5)
+
+			get "/movies/#{@movie.id}/delete"
+
+			delete "/movies/#{@movie.id}",
+				{ movie: { name: "Jaws", rating: 5 } },
+				{ 'rack.session' => { authenticated: true } }
+		end
+
 		it "removed the movie from the DB" do
-			assert_equal Movie.first, null
+			assert_equal Movie.count, 0
+		end
+
+		it "redirects to the list of movies" do
+			assert last_response.redirect?
 		end
 	end
 end

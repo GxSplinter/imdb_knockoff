@@ -1,3 +1,5 @@
 <h1>Name: <%= @movie.name %></h1>
 <h1>Rating: <%= @movie.rating %></h1>
+<p> <%= link_to 'Edit this movie', "#{@movie.id}/edit" %> </p>
+<p> <%= link_to 'Delete this movie', "#{@movie.id}/delete" %> </p>
 <p> <%= link_to "View All Movies", "list" %> </p>

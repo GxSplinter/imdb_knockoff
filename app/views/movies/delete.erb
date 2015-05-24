@@ -1,0 +1,4 @@
+<h3>Would you like to delete the movie</h3>
+<% form_for(@movie, path, method: "delete") do |m| %>
+	<%= m.submit("Delete") %>
+<% end %>
