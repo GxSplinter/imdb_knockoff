@@ -28,27 +28,31 @@ ImdbKnockoff::App.controllers :movies do
     render :show
   end
 
-	get :edit, map: '/movies/:id/edit' do
-		@movie = Movie.find(params[:id])
-		render :edit, locals: { path: url(:movies, :update, id: @movie.id) }
+  get :edit, map: '/movies/:id/edit' do
+    @movie = Movie.find(params[:id])
+    render :edit, locals: { path: url(:movies, :update, id: @movie.id) }
   end
 
-	put :update, map: '/movies/:id' do
-		@movie = Movie.find(params[:id])
-		@movie.update(params[:movie])
+  put :update, map: '/movies/:id' do
+    @movie = Movie.find(params[:id])
+    @movie.update(params[:movie])
 
-		redirect url(:movies, :show, id: @movie.id)
-	end
+    if @movie.valid?
+      redirect url(:movies, :show, id: @movie.id)
+    else
+      render :edit, locals: { path: url(:movies, :update, @movie.id) }
+    end
+  end
 
-	get :del, map: '/movies/:id/delete' do
-		@movie = Movie.find(params[:id])
-		render :delete, locals: { path: url(:movies, :delete, id: @movie.id) }
-	end
+  get :del, map: '/movies/:id/delete' do
+    @movie = Movie.find(params[:id])
+    render :delete, locals: { path: url(:movies, :delete, id: @movie.id) }
+  end
 
-	delete :delete, map: '/movies/:id' do
-		@movie = Movie.find(params[:id])
-		@movie.delete
+  delete :delete, map: '/movies/:id' do
+    @movie = Movie.find(params[:id])
+    @movie.delete
 
-		redirect url(:movies, :list)
-	end
+    redirect url(:movies, :list)
+  end
 end
