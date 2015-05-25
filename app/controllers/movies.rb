@@ -44,7 +44,7 @@ ImdbKnockoff::App.controllers :movies do
     end
   end
 
-  get :del, map: '/movies/:id/delete' do
+  get :confirmdel, map: '/movies/:id/confirm-delete' do
     @movie = Movie.find(params[:id])
     render :delete, locals: { path: url(:movies, :delete, id: @movie.id) }
   end
